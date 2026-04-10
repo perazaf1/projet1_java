@@ -77,4 +77,9 @@ public class Reservation {
         }
         return false;
     }
+
+    public static void vider() {
+        reservations.clear();
+        compteur = 1;
+    }
 }

@@ -75,4 +75,8 @@ public class Pilote extends Employe {
         }
         return false;
     }
+
+    public static void vider() {
+        pilotes.clear();
+    }
 }

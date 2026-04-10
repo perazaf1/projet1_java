@@ -134,4 +134,8 @@ public class Vol {
         }
         return false;
     }
+
+    public static void vider() {
+        vols.clear();
+    }
 }

@@ -82,4 +82,8 @@ public class Passager extends Personne {
         }
         return false;
     }
+
+    public static void vider() {
+        passagers.clear();
+    }
 }

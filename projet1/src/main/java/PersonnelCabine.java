@@ -70,4 +70,8 @@ public class PersonnelCabine extends Employe {
         }
         return false;
     }
+
+    public static void vider() {
+        personnelsCabine.clear();
+    }
 }

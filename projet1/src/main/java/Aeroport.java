@@ -71,4 +71,8 @@ public class Aeroport {
         }
         return false;
     }
+
+    public static void vider() {
+        aeroports.clear();
+    }
 }

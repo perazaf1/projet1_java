@@ -71,4 +71,8 @@ public class Avion {
         }
         return false;
     }
+
+    public static void vider() {
+        avions.clear();
+    }
 }
