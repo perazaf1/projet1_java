@@ -1,0 +1,190 @@
+@startuml DiagrammeReservationAerienne
+
+skinparam classAttributeIconSize 0
+skinparam classFontStyle Bold
+skinparam ArrowColor #333333
+skinparam ClassBorderColor #555555
+
+' ========================
+'  HIÉRARCHIE PERSONNE
+' ========================
+
+abstract class Personne {
+  - identifiant : String
+  - nom : String
+  - adresse : String
+  - contact : String
+  + getIdentifiant() : String
+  + getNom() : String
+  + getAdresse() : String
+  + getContact() : String
+  + obtenirInfos() : void
+}
+
+class Employe {
+  - numeroEmploye : String
+  - dateEmbauche : String
+  - {static} employes : ArrayList<Employe>
+  + getNumeroEmploye() : String
+  + obtenirRole() : String
+  + obtenirInfos() : void
+  + {static} ajouter(e : Employe) : void
+  + {static} getListe() : ArrayList<Employe>
+  + {static} trouver(num : String) : Employe
+  + {static} supprimer(num : String) : boolean
+}
+
+class Pilote {
+  - licence : String
+  - heuresDeVol : int
+  - volAssigne : Vol
+  - {static} pilotes : ArrayList<Pilote>
+  + affecterVol(vol : Vol) : void
+  + obtenirVol() : Vol
+  + obtenirRole() : String
+  + obtenirInfos() : void
+  + {static} ajouter(p : Pilote) : void
+  + {static} getListePilotes() : ArrayList<Pilote>
+  + {static} trouver(num : String) : Pilote
+  + {static} supprimer(num : String) : boolean
+}
+
+class PersonnelCabine {
+  - qualification : String
+  - volAssigne : Vol
+  - {static} personnelsCabine : ArrayList<PersonnelCabine>
+  + affecterVol(vol : Vol) : void
+  + obtenirVol() : Vol
+  + obtenirRole() : String
+  + obtenirInfos() : void
+  + {static} ajouter(pc : PersonnelCabine) : void
+  + {static} getListePersonnelCabine() : ArrayList<PersonnelCabine>
+  + {static} trouver(num : String) : PersonnelCabine
+  + {static} supprimer(num : String) : boolean
+}
+
+class Passager {
+  - passeport : String
+  - reservations : ArrayList<Reservation>
+  - {static} passagers : ArrayList<Passager>
+  + getPasseport() : String
+  + reserverVol(vol : Vol, date : String) : Reservation
+  + annulerReservation(num : String) : void
+  + obtenirReservations() : void
+  + obtenirInfos() : void
+  + {static} ajouter(p : Passager) : void
+  + {static} getListe() : ArrayList<Passager>
+  + {static} trouver(id : String) : Passager
+  + {static} supprimer(id : String) : boolean
+}
+
+' ========================
+'  CLASSES MÉTIER
+' ========================
+
+class Reservation {
+  - numeroReservation : String
+  - dateReservation : String
+  - statut : String
+  - passager : Passager
+  - vol : Vol
+  - {static} compteur : int
+  - {static} reservations : ArrayList<Reservation>
+  + getNumeroReservation() : String
+  + getStatut() : String
+  + confirmerReservation() : void
+  + annulerReservation() : void
+  + modifierReservation(vol : Vol) : void
+  + obtenirInfos() : void
+  + {static} ajouter(r : Reservation) : void
+  + {static} getListe() : ArrayList<Reservation>
+  + {static} trouver(num : String) : Reservation
+  + {static} supprimer(num : String) : boolean
+}
+
+class Vol {
+  - numeroVol : String
+  - origine : String
+  - destination : String
+  - dateHeureDepart : String
+  - dateHeureArrivee : String
+  - etat : String
+  - avion : Avion
+  - pilote : Pilote
+  - personnelCabine : ArrayList<PersonnelCabine>
+  - passagers : ArrayList<Passager>
+  - {static} vols : ArrayList<Vol>
+  + planifierVol() : void
+  + annulerVol() : void
+  + modifierVol(depart : String, arrivee : String) : void
+  + affecterVol(pilote : Pilote, personnel : ArrayList) : void
+  + ajouterPassager(p : Passager) : void
+  + listingPassager() : void
+  + obtenirInfos() : void
+  + {static} ajouter(v : Vol) : void
+  + {static} getListe() : ArrayList<Vol>
+  + {static} trouver(num : String) : Vol
+  + {static} supprimer(num : String) : boolean
+}
+
+class Avion {
+  - immatriculation : String
+  - modele : String
+  - capacite : int
+  - volAssigne : Vol
+  - {static} avions : ArrayList<Avion>
+  + affecterVol(vol : Vol) : void
+  + verifierDisponibilite() : boolean
+  + obtenirInfos() : void
+  + {static} ajouter(a : Avion) : void
+  + {static} getListe() : ArrayList<Avion>
+  + {static} trouver(immat : String) : Avion
+  + {static} supprimer(immat : String) : boolean
+}
+
+class Aeroport {
+  - nom : String
+  - ville : String
+  - description : String
+  - volsDepart : ArrayList<Vol>
+  - volsArrivee : ArrayList<Vol>
+  - {static} aeroports : ArrayList<Aeroport>
+  + affecterVol(vol : Vol, estDepart : boolean) : void
+  + obtenirInfos() : void
+  + {static} ajouter(a : Aeroport) : void
+  + {static} getListe() : ArrayList<Aeroport>
+  + {static} trouver(nom : String) : Aeroport
+  + {static} supprimer(nom : String) : boolean
+}
+
+' ========================
+'  HÉRITAGE
+' ========================
+
+Personne <|-- Employe
+Personne <|-- Passager
+Employe  <|-- Pilote
+Employe  <|-- PersonnelCabine
+
+' ========================
+'  ASSOCIATIONS / COMPOSITIONS
+' ========================
+
+Passager "1" o-- "0..*" Reservation : possède >
+
+Reservation "0..*" --> "1" Passager : concerne >
+Reservation "0..*" --> "1" Vol       : porte sur >
+
+Vol "0..*" --> "1"    Avion          : utilise >
+Vol "0..*" --> "0..1" Pilote         : commandé par >
+Vol "0..*" --> "0..*" PersonnelCabine : équipé de >
+Vol "0..*" --> "0..*" Passager       : transporte >
+
+Avion        "0..1" --> "0..1" Vol : assigné à >
+Pilote       "0..1" --> "0..1" Vol : assigné à >
+PersonnelCabine "0..1" --> "0..1" Vol : assigné à >
+
+Aeroport "1" o-- "0..*" Vol : départs >
+Aeroport "1" o-- "0..*" Vol : arrivées >
+
+@enduml
