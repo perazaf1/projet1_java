@@ -81,7 +81,7 @@ public class Vol {
     }
 
     public void listingPassager() {
-        System.out.println("=== Passagers du vol " + numeroVol + " ===");
+        System.out.println(" Passagers du vol " + numeroVol );
         if (passagers.size() == 0) {
             System.out.println("Aucun passager.");
         }
