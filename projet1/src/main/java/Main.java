@@ -5,7 +5,7 @@ public class Main {
 
         System.out.println("   Système de réservation aérienne");
 
-
+        //Creation de l'aéroport
         // Aéroport
         Aeroport cdg = new Aeroport("CDG", "Paris", "Aéroport Charles de Gaulle");
         Aeroport jfk = new Aeroport("JFK", "New York", "Aéroport John F. Kennedy");
