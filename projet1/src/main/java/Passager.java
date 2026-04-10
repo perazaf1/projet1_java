@@ -38,7 +38,7 @@ public class Passager extends Personne {
     }
 
     public void obtenirReservations() {
-        System.out.println("=== Réservations de " + getNom() + " ===");
+        System.out.println(" Réservations de " + getNom());
         if (reservations.size() == 0) {
             System.out.println("Aucune réservation.");
         }
