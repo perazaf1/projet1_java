@@ -39,7 +39,7 @@ public class Menu {
         }
     }
 
-    // ==================== PASSAGERS ====================
+    // Passagers
 
     private void menuPassagers() {
         int choix = -1;
@@ -113,7 +113,7 @@ public class Menu {
         }
     }
 
-    // ==================== VOLS ====================
+    // Vols
 
     private void menuVols() {
         int choix = -1;
@@ -124,8 +124,9 @@ public class Menu {
             System.out.println("  3. Informations sur un vol");
             System.out.println("  4. Affecter un equipage a un vol");
             System.out.println("  5. Affecter un avion a un vol");
-            System.out.println("  6. Annuler un vol");
-            System.out.println("  7. Liste des passagers d'un vol");
+            System.out.println("  6. Modifier un vol");
+            System.out.println("  7. Annuler un vol");
+            System.out.println("  8. Liste des passagers d'un vol");
             System.out.println("  0. Retour au menu principal");
             choix = saisirEntier("Votre choix : ");
 
@@ -134,8 +135,9 @@ public class Menu {
             else if (choix == 3) infosVol();
             else if (choix == 4) affecterEquipage();
             else if (choix == 5) affecterAvionVol();
-            else if (choix == 6) annulerVol();
-            else if (choix == 7) listingPassagersVol();
+            else if (choix == 6) modifierVol();
+            else if (choix == 7) annulerVol();
+            else if (choix == 8) listingPassagersVol();
             else if (choix != 0) System.out.println("Choix invalide.");
         }
     }
@@ -269,6 +271,20 @@ public class Menu {
         v.setAvion(avion);
     }
 
+    private void modifierVol() {
+        String numero = saisirTexte("Numero de vol a modifier : ");
+        Vol v = Vol.trouver(numero);
+        if (v == null) {
+            System.out.println("Vol introuvable.");
+            return;
+        }
+        System.out.println("Date/heure de depart actuelle : " + v.getDateHeureDepart());
+        String depart = saisirTexte("Nouvelle date/heure de depart (ex: 2025-06-01 10:00) : ");
+        System.out.println("Date/heure d'arrivee actuelle : " + v.getDateHeureArrivee());
+        String arrivee = saisirTexte("Nouvelle date/heure d'arrivee (ex: 2025-06-01 14:00) : ");
+        v.modifierVol(depart, arrivee);
+    }
+
     private void annulerVol() {
         String numero = saisirTexte("Numero de vol a annuler : ");
         Vol v = Vol.trouver(numero);
@@ -289,23 +305,25 @@ public class Menu {
         }
     }
 
-    // ==================== RESERVATIONS ====================
+    // Reservations
 
     private void menuReservations() {
         int choix = -1;
         while (choix != 0) {
             System.out.println("\n--- Gestion des reservations ---");
             System.out.println("  1. Effectuer une reservation");
-            System.out.println("  2. Annuler une reservation");
-            System.out.println("  3. Lister toutes les reservations");
-            System.out.println("  4. Informations sur une reservation");
+            System.out.println("  2. Modifier une reservation");
+            System.out.println("  3. Annuler une reservation");
+            System.out.println("  4. Lister toutes les reservations");
+            System.out.println("  5. Informations sur une reservation");
             System.out.println("  0. Retour au menu principal");
             choix = saisirEntier("Votre choix : ");
 
             if (choix == 1) effectuerReservation();
-            else if (choix == 2) annulerReservation();
-            else if (choix == 3) listerReservations();
-            else if (choix == 4) infosReservation();
+            else if (choix == 2) modifierReservation();
+            else if (choix == 3) annulerReservation();
+            else if (choix == 4) listerReservations();
+            else if (choix == 5) infosReservation();
             else if (choix != 0) System.out.println("Choix invalide.");
         }
     }
@@ -327,13 +345,31 @@ public class Menu {
             System.out.println("Vol introuvable.");
             return;
         }
-        if (v.getEtat().equals("Annule")) {
+        if (v.getEtat().equals("Annulé")) {
             System.out.println("Impossible de reserver : ce vol est annule.");
             return;
         }
 
         String date = saisirTexte("Date de reservation (ex: 2025-05-01) : ");
         p.reserverVol(v, date);
+    }
+
+    private void modifierReservation() {
+        String num = saisirTexte("Numero de reservation a modifier (ex: RES001) : ");
+        Reservation r = Reservation.trouver(num);
+        if (r == null) {
+            System.out.println("Reservation introuvable.");
+            return;
+        }
+        System.out.println("Vol actuel : " + r.getVol().getNumeroVol());
+        listerVols();
+        String numVol = saisirTexte("Nouveau numero de vol : ");
+        Vol v = Vol.trouver(numVol);
+        if (v == null) {
+            System.out.println("Vol introuvable.");
+            return;
+        }
+        r.modifierReservation(v);
     }
 
     private void annulerReservation() {
@@ -379,7 +415,7 @@ public class Menu {
         }
     }
 
-    // ==================== PILOTES ====================
+    // Pilotes
 
     private void menuPilotes() {
         int choix = -1;
@@ -452,7 +488,7 @@ public class Menu {
         }
     }
 
-    // ==================== PERSONNEL CABINE ====================
+    // Personnel cabine
 
     private void menuPersonnelCabine() {
         int choix = -1;
@@ -523,7 +559,7 @@ public class Menu {
         }
     }
 
-    // ==================== AVIONS ====================
+    // Avions
 
     private void menuAvions() {
         int choix = -1;
@@ -612,7 +648,7 @@ public class Menu {
         }
     }
 
-    // ==================== AEROPORTS ====================
+    // Aeroports
 
     private void menuAeroports() {
         int choix = -1;
@@ -712,7 +748,7 @@ public class Menu {
         }
     }
 
-    // ==================== STATISTIQUES (BONUS) ====================
+    // Statistiques
 
     private void afficherStatistiques() {
         System.out.println("\n===== RAPPORT STATISTIQUE =====");
@@ -739,8 +775,8 @@ public class Menu {
             int nbPlanifies = 0;
             int nbAnnules = 0;
             for (int i = 0; i < vols.size(); i++) {
-                if (vols.get(i).getEtat().equals("Planifie")) nbPlanifies++;
-                else if (vols.get(i).getEtat().equals("Annule")) nbAnnules++;
+                if (vols.get(i).getEtat().equals("Planifié")) nbPlanifies++;
+                else if (vols.get(i).getEtat().equals("Annulé")) nbAnnules++;
             }
             System.out.println("\n-- Etat des vols --");
             System.out.println("  Planifies            : " + nbPlanifies);
@@ -795,8 +831,8 @@ public class Menu {
             int enAttente = 0;
             for (int i = 0; i < reservations.size(); i++) {
                 String statut = reservations.get(i).getStatut();
-                if (statut.equals("Confirme")) confirmees++;
-                else if (statut.equals("Annule")) annulees++;
+                if (statut.equals("Confirmé")) confirmees++;
+                else if (statut.equals("Annulé")) annulees++;
                 else enAttente++;
             }
             System.out.println("\n-- Statut des reservations --");
@@ -818,7 +854,7 @@ public class Menu {
         System.out.println("\n================================");
     }
 
-    // ==================== UTILITAIRES ====================
+    // Utilitaires
 
     private String saisirTexte(String message) {
         System.out.print(message);
