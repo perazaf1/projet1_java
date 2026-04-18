@@ -11,9 +11,7 @@ public class Menu {
     public void lancer() {
         int choix = -1;
         while (choix != 0) {
-            System.out.println("\n===================================================");
             System.out.println("    SYSTEME DE RESERVATION - COMPAGNIE AERIENNE   ");
-            System.out.println("===================================================");
             System.out.println("  1. Gestion des passagers");
             System.out.println("  2. Gestion des vols");
             System.out.println("  3. Gestion des reservations");
@@ -22,8 +20,8 @@ public class Menu {
             System.out.println("  6. Gestion des avions");
             System.out.println("  7. Gestion des aeroports");
             System.out.println("  8. Statistiques");
+            System.out.println("  9. Gestion des fichiers (import / export CSV)");
             System.out.println("  0. Quitter");
-            System.out.println("---------------------------------------------------");
             choix = saisirEntier("Votre choix : ");
 
             if (choix == 1) menuPassagers();
@@ -34,6 +32,7 @@ public class Menu {
             else if (choix == 6) menuAvions();
             else if (choix == 7) menuAeroports();
             else if (choix == 8) afficherStatistiques();
+            else if (choix == 9) menuFichiers();
             else if (choix == 0) System.out.println("Au revoir !");
             else System.out.println("Choix invalide, veuillez reessayer.");
         }
@@ -44,7 +43,7 @@ public class Menu {
     private void menuPassagers() {
         int choix = -1;
         while (choix != 0) {
-            System.out.println("\n--- Gestion des passagers ---");
+            System.out.println("\nGestion des passagers");
             System.out.println("  1. Ajouter un passager");
             System.out.println("  2. Lister les passagers");
             System.out.println("  3. Rechercher un passager");
@@ -61,7 +60,7 @@ public class Menu {
     }
 
     private void ajouterPassager() {
-        System.out.println("\n-- Ajout d'un passager --");
+        System.out.println("\nAjout d'un passager");
         String id = saisirTexte("Identifiant (ex: PA010) : ");
         if (Passager.trouver(id) != null) {
             System.out.println("Un passager avec cet identifiant existe deja.");
@@ -79,7 +78,7 @@ public class Menu {
 
     private void listerPassagers() {
         ArrayList<Passager> liste = Passager.getListe();
-        System.out.println("\n-- Liste des passagers (" + liste.size() + ") --");
+        System.out.println("\nListe des passagers (" + liste.size() + ")");
         if (liste.size() == 0) {
             System.out.println("Aucun passager enregistre.");
             return;
@@ -118,7 +117,7 @@ public class Menu {
     private void menuVols() {
         int choix = -1;
         while (choix != 0) {
-            System.out.println("\n--- Gestion des vols ---");
+            System.out.println("\nGestion des vols");
             System.out.println("  1. Planifier un nouveau vol");
             System.out.println("  2. Lister tous les vols");
             System.out.println("  3. Informations sur un vol");
@@ -143,7 +142,7 @@ public class Menu {
     }
 
     private void planifierVol() {
-        System.out.println("\n-- Planification d'un vol --");
+        System.out.println("\nPlanification d'un vol");
         String numero = saisirTexte("Numero de vol (ex: AF202) : ");
         if (Vol.trouver(numero) != null) {
             System.out.println("Un vol avec ce numero existe deja.");
@@ -161,7 +160,7 @@ public class Menu {
 
     private void listerVols() {
         ArrayList<Vol> liste = Vol.getListe();
-        System.out.println("\n-- Liste des vols (" + liste.size() + ") --");
+        System.out.println("\nListe des vols (" + liste.size() + ")");
         if (liste.size() == 0) {
             System.out.println("Aucun vol planifie.");
             return;
@@ -310,7 +309,7 @@ public class Menu {
     private void menuReservations() {
         int choix = -1;
         while (choix != 0) {
-            System.out.println("\n--- Gestion des reservations ---");
+            System.out.println("\nGestion des reservations");
             System.out.println("  1. Effectuer une reservation");
             System.out.println("  2. Modifier une reservation");
             System.out.println("  3. Annuler une reservation");
@@ -329,7 +328,7 @@ public class Menu {
     }
 
     private void effectuerReservation() {
-        System.out.println("\n-- Nouvelle reservation --");
+        System.out.println("\nNouvelle reservation");
         listerPassagers();
         String idPassager = saisirTexte("Identifiant du passager : ");
         Passager p = Passager.trouver(idPassager);
@@ -352,6 +351,7 @@ public class Menu {
 
         String date = saisirTexte("Date de reservation (ex: 2025-05-01) : ");
         p.reserverVol(v, date);
+        GestionFichiers.sauvegarderReservation(CHEMIN_RESERVATIONS, p, v, date);
     }
 
     private void modifierReservation() {
@@ -389,7 +389,7 @@ public class Menu {
 
     private void listerReservations() {
         ArrayList<Reservation> liste = Reservation.getListe();
-        System.out.println("\n-- Liste des reservations (" + liste.size() + ") --");
+        System.out.println("\nListe des reservations (" + liste.size() + ")");
         if (liste.size() == 0) {
             System.out.println("Aucune reservation enregistree.");
             return;
@@ -420,7 +420,7 @@ public class Menu {
     private void menuPilotes() {
         int choix = -1;
         while (choix != 0) {
-            System.out.println("\n--- Gestion des pilotes ---");
+            System.out.println("\nGestion des pilotes");
             System.out.println("  1. Ajouter un pilote");
             System.out.println("  2. Lister les pilotes");
             System.out.println("  3. Informations sur un pilote");
@@ -437,7 +437,7 @@ public class Menu {
     }
 
     private void ajouterPilote() {
-        System.out.println("\n-- Ajout d'un pilote --");
+        System.out.println("\nAjout d'un pilote");
         String id = saisirTexte("Identifiant (ex: P010) : ");
         String nom = saisirTexte("Nom complet : ");
         String adresse = saisirTexte("Adresse : ");
@@ -493,7 +493,7 @@ public class Menu {
     private void menuPersonnelCabine() {
         int choix = -1;
         while (choix != 0) {
-            System.out.println("\n--- Gestion du personnel cabine ---");
+            System.out.println("\nGestion du personnel cabine");
             System.out.println("  1. Ajouter un membre");
             System.out.println("  2. Lister le personnel");
             System.out.println("  3. Informations sur un membre");
@@ -510,7 +510,7 @@ public class Menu {
     }
 
     private void ajouterPersonnelCabine() {
-        System.out.println("\n-- Ajout du personnel cabine --");
+        System.out.println("\nAjout du personnel cabine");
         String id = saisirTexte("Identifiant (ex: PC010) : ");
         String nom = saisirTexte("Nom complet : ");
         String adresse = saisirTexte("Adresse : ");
@@ -564,7 +564,7 @@ public class Menu {
     private void menuAvions() {
         int choix = -1;
         while (choix != 0) {
-            System.out.println("\n--- Gestion des avions ---");
+            System.out.println("\nGestion des avions");
             System.out.println("  1. Ajouter un avion");
             System.out.println("  2. Lister les avions");
             System.out.println("  3. Informations sur un avion");
@@ -583,7 +583,7 @@ public class Menu {
     }
 
     private void ajouterAvion() {
-        System.out.println("\n-- Ajout d'un avion --");
+        System.out.println("\nAjout d'un avion");
         String immat = saisirTexte("Immatriculation (ex: F-GKXB) : ");
         if (Avion.trouver(immat) != null) {
             System.out.println("Un avion avec cette immatriculation existe deja.");
@@ -653,7 +653,7 @@ public class Menu {
     private void menuAeroports() {
         int choix = -1;
         while (choix != 0) {
-            System.out.println("\n--- Gestion des aeroports ---");
+            System.out.println("\nGestion des aeroports");
             System.out.println("  1. Ajouter un aeroport");
             System.out.println("  2. Lister les aeroports");
             System.out.println("  3. Informations sur un aeroport");
@@ -751,7 +751,7 @@ public class Menu {
     // Statistiques
 
     private void afficherStatistiques() {
-        System.out.println("\n===== RAPPORT STATISTIQUE =====");
+        System.out.println("\nStats");
 
         ArrayList<Vol> vols = Vol.getListe();
         ArrayList<Passager> passagers = Passager.getListe();
@@ -761,7 +761,7 @@ public class Menu {
         ArrayList<Avion> avions = Avion.getListe();
         ArrayList<Aeroport> aeroports = Aeroport.getListe();
 
-        System.out.println("\n-- Inventaire --");
+        System.out.println("\nInventaire");
         System.out.println("  Vols planifies       : " + vols.size());
         System.out.println("  Passagers            : " + passagers.size());
         System.out.println("  Reservations         : " + reservations.size());
@@ -778,7 +778,7 @@ public class Menu {
                 if (vols.get(i).getEtat().equals("Planifié")) nbPlanifies++;
                 else if (vols.get(i).getEtat().equals("Annulé")) nbAnnules++;
             }
-            System.out.println("\n-- Etat des vols --");
+            System.out.println("\nEtat des vols");
             System.out.println("  Planifies            : " + nbPlanifies);
             System.out.println("  Annules              : " + nbAnnules);
         }
@@ -799,7 +799,7 @@ public class Menu {
 
         // Destinations les plus populaires
         if (reservations.size() > 0) {
-            System.out.println("\n-- Destinations les plus populaires --");
+            System.out.println("\nDestinations les plus populaires");
             ArrayList<String> destinations = new ArrayList<String>();
             ArrayList<Integer> compteurs = new ArrayList<Integer>();
 
@@ -835,7 +835,7 @@ public class Menu {
                 else if (statut.equals("Annulé")) annulees++;
                 else enAttente++;
             }
-            System.out.println("\n-- Statut des reservations --");
+            System.out.println("\nStatut des reservations");
             System.out.println("  Confirmees           : " + confirmees);
             System.out.println("  Annulees             : " + annulees);
             System.out.println("  En attente           : " + enAttente);
@@ -847,14 +847,71 @@ public class Menu {
             for (int i = 0; i < avions.size(); i++) {
                 if (avions.get(i).verifierDisponibilite()) dispos++;
             }
-            System.out.println("\n-- Flotte --");
+            System.out.println("\nFlotte");
             System.out.println("  Avions disponibles   : " + dispos + " / " + avions.size());
         }
 
         System.out.println("\n================================");
     }
 
-    // Utilitaires
+    // =========================================================
+    //  Fichiers CSV
+    // =========================================================
+
+    private static final String CHEMIN_VOLS        = "data/Vols.csv";
+    private static final String CHEMIN_PASSAGERS    = "data/passagers.csv";
+    private static final String CHEMIN_AEROPORTS    = "data/aeroports.csv";
+    private static final String CHEMIN_RESERVATIONS = "data/reservations.csv";
+
+    private void menuFichiers() {
+        int choix = -1;
+        while (choix != 0) {
+            System.out.println("\nGestion des fichiers CSV");
+            System.out.println("  1. Importer les vols depuis Vols.csv");
+            System.out.println("  2. Exporter les vols vers Vols.csv");
+            System.out.println("  3. Importer les passagers depuis passagers.csv");
+            System.out.println("  4. Sauvegarder les passagers dans passagers.csv");
+            System.out.println("  5. Importer les aeroports depuis aeroports.csv");
+            System.out.println("  0. Retour au menu principal");
+            choix = saisirEntier("Votre choix : ");
+
+            if (choix == 1) importerVols();
+            else if (choix == 2) exporterVols();
+            else if (choix == 3) importerPassagers();
+            else if (choix == 4) sauvegarderPassagers();
+            else if (choix == 5) importerAeroports();
+            else if (choix != 0) System.out.println("Choix invalide.");
+        }
+    }
+
+    private void importerVols() {
+        System.out.println("\nImport des vols depuis " + CHEMIN_VOLS);
+        GestionFichiers.importerVols(CHEMIN_VOLS);
+    }
+
+    private void exporterVols() {
+        System.out.println("\nExport des vols vers " + CHEMIN_VOLS);
+        GestionFichiers.exporterVols(CHEMIN_VOLS);
+    }
+
+    private void importerPassagers() {
+        System.out.println("\nImport des passagers depuis " + CHEMIN_PASSAGERS);
+        GestionFichiers.importerPassagers(CHEMIN_PASSAGERS);
+    }
+
+    private void sauvegarderPassagers() {
+        System.out.println("\nSauvegarde des passagers dans " + CHEMIN_PASSAGERS);
+        GestionFichiers.sauvegarderPassagers(CHEMIN_PASSAGERS);
+    }
+
+    private void importerAeroports() {
+        System.out.println("\nImport des aeroports depuis " + CHEMIN_AEROPORTS);
+        GestionFichiers.importerAeroports(CHEMIN_AEROPORTS);
+    }
+
+    // =========================================================
+    //  Utilitaires
+    // =========================================================
 
     private String saisirTexte(String message) {
         System.out.print(message);

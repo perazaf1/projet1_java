@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mvn compile:*)",
+      "Bash(./mvnw compile:*)",
+      "Bash(where mvn:*)",
+      "Bash(cmd.exe /c \"where mvn 2>nul\")",
+      "Bash(cmd.exe /c \"cd \\\\\"C:\\\\Users\\\\peraz\\\\Documents\\\\ISEP\\\\A1\\\\S2\\\\II.1102-Algo\\\\miniProjet1\\\\projet1\\\\\" && javac -cp . src/main/java/*.java -d target/classes 2>&1\")",
+      "Bash(cmd.exe:*)"
+    ]
+  }
+}
