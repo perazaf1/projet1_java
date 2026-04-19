@@ -858,7 +858,8 @@ public class Menu {
     //  Fichiers CSV
     // =========================================================
 
-    private static final String CHEMIN_VOLS        = "data/Vols.csv";
+    private static final String CHEMIN_VOLS_JSON    = "data/flights.json";
+    private static final String CHEMIN_VOLS_CSV     = "data/Vols.csv";
     private static final String CHEMIN_PASSAGERS    = "data/passagers.csv";
     private static final String CHEMIN_AEROPORTS    = "data/aeroports.csv";
     private static final String CHEMIN_RESERVATIONS = "data/reservations.csv";
@@ -866,8 +867,8 @@ public class Menu {
     private void menuFichiers() {
         int choix = -1;
         while (choix != 0) {
-            System.out.println("\nGestion des fichiers CSV");
-            System.out.println("  1. Importer les vols depuis Vols.csv");
+            System.out.println("\nGestion des fichiers");
+            System.out.println("  1. Importer les vols depuis flights.json");
             System.out.println("  2. Exporter les vols vers Vols.csv");
             System.out.println("  3. Importer les passagers depuis passagers.csv");
             System.out.println("  4. Sauvegarder les passagers dans passagers.csv");
@@ -885,13 +886,13 @@ public class Menu {
     }
 
     private void importerVols() {
-        System.out.println("\nImport des vols depuis " + CHEMIN_VOLS);
-        GestionFichiers.importerVols(CHEMIN_VOLS);
+        System.out.println("\nImport des vols depuis " + CHEMIN_VOLS_JSON);
+        GestionFichiers.importerVolsJSON(CHEMIN_VOLS_JSON);
     }
 
     private void exporterVols() {
-        System.out.println("\nExport des vols vers " + CHEMIN_VOLS);
-        GestionFichiers.exporterVols(CHEMIN_VOLS);
+        System.out.println("\nExport des vols vers " + CHEMIN_VOLS_CSV);
+        GestionFichiers.exporterVols(CHEMIN_VOLS_CSV);
     }
 
     private void importerPassagers() {
